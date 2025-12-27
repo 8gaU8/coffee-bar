@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+#MISE description="Clean the Tauri application build artifacts"
+rm -rf src-tauri/target
+rm -rf node_modules

@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+#MISE description="Build the Tauri application" 
+pnpm run tauri build

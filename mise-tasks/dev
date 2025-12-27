@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+#MISE description="Start the Tauri application in development mode"
+pnpm run tauri dev
