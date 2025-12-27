@@ -2,25 +2,41 @@
 
 use tauri::menu::{Menu, MenuItem};
 use tauri::tray::TrayIconBuilder;
-
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
-}
+use tauri_plugin_shell::ShellExt;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_shell::init())
         .setup(|app| {
-            let quit_i = MenuItem::with_id(app, "quit", "Quit", true, None::<&str>)?;
-            let menu = Menu::with_items(app, &[&quit_i])?;
+            let caffeinate_i =
+                MenuItem::with_id(app, "caffeinate", "Caffeinate", true, None::<&str>)?;
+            let no_more_caffeine_i =
+                MenuItem::with_id(app, "no-caffeine", "Sleep", true, None::<&str>)?;
+            let menu = Menu::with_items(app, &[&caffeinate_i, &no_more_caffeine_i])?;
 
             let _tray = TrayIconBuilder::new()
                 .menu(&menu)
                 .on_menu_event(|app, event| match event.id.as_ref() {
-                    "quit" => {
-                        println!("quit menu item was clicked");
-                        app.exit(0);
+                    "caffeinate" => {
+                        let shell = app.shell();
+                        tauri::async_runtime::block_on(async move {
+                            shell
+                                .command("/bin/sh")
+                                .args(["-c", "/usr/bin/caffeinate "])
+                                .spawn()
+                                .unwrap()
+                        });
+                    }
+                    "no-caffeine" => {
+                        let shell = app.shell();
+                        tauri::async_runtime::block_on(async move {
+                            shell
+                                .command("/bin/sh")
+                                .args(["-c", "pkill caffeinate"])
+                                .spawn()
+                                .unwrap()
+                        });
                     }
                     _ => {
                         println!("menu item {:?} not handled", event.id);
@@ -32,7 +48,6 @@ pub fn run() {
             Ok(())
         })
         .plugin(tauri_plugin_opener::init())
-        .invoke_handler(tauri::generate_handler![greet])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
