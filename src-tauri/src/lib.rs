@@ -16,11 +16,16 @@ pub fn run() {
         .plugin(tauri_plugin_shell::init())
         .manage(CaffeinateState::default())
         .setup(|app| {
+            #[cfg(target_os = "macos")]
+            app.set_activation_policy(tauri::ActivationPolicy::Accessory);
+
             let caffeinate_i =
                 MenuItem::with_id(app, "caffeinate", "Caffeinate", true, None::<&str>)?;
             let no_more_caffeine_i =
                 MenuItem::with_id(app, "no-caffeine", "Sleep", true, None::<&str>)?;
-            let menu = Menu::with_items(app, &[&caffeinate_i, &no_more_caffeine_i])?;
+            let quit_i =
+                MenuItem::with_id(app, "quit", "Quit", true, None::<&str>)?;
+            let menu = Menu::with_items(app, &[&caffeinate_i, &no_more_caffeine_i, &quit_i])?;
             let caffeinate_item = caffeinate_i.clone();
 
             let _tray = TrayIconBuilder::new()
@@ -32,6 +37,9 @@ pub fn run() {
                     match event.id.as_ref() {
                         "caffeinate" => start(app, caffeinate_state, &caffeinate_item),
                         "no-caffeine" => stop(app, caffeinate_state, &caffeinate_item),
+                        "quit" => {
+                            std::process::exit(0);
+                        }
                         _ => println!("menu item {:?} not handled", event.id),
                     }
                 })
