@@ -13,7 +13,4 @@ run = "pnpm run tauri build"
 
 [tasks.clean]
 description = "Clean the Tauri application build artifacts"
-run = """
-rm -rf src-tauri/target
-rm -rf node_modules
-"""
+run = ["rm -rf src-tauri/target", "rm -rf node_modules"]
