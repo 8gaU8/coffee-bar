@@ -14,7 +14,7 @@ pub fn start(app: &AppHandle, state: &CaffeinateState, menu_item: &MenuItem<Wry>
     }
 
     state.set_running(true);
-    update_menu_label(menu_item, "Caffeinating...");
+    update_menu_label(menu_item, "☕️Caffeinating...");
 }
 
 pub fn stop(app: &AppHandle, state: &CaffeinateState, menu_item: &MenuItem<Wry>) {
