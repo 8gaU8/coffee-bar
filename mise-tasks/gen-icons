@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-#MISE description="Generate icons for the Tauri application"
-pnpm run tauri icon ./assets/coffee.png
