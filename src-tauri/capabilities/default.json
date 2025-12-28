@@ -9,7 +9,6 @@
     "core:default",
     "opener:default",
     "shell:default",
-    "core:menu:allow-set-text",
-    "notification:default"
+    "core:menu:allow-set-text"
   ]
 }

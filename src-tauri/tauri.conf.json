@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "coffee-bar",
+  "productName": "Coffee Bar",
   "version": "0.2.0",
   "identifier": "com.8gaU8.coffee-bar",
   "build": {
