@@ -3,17 +3,20 @@ node = "24.12.0"
 pnpm = "10.26.2"
 rust = "latest"
 
+[tasks.setup]
+description = "Set up the development environment"
+run = ["pnpm install"]
+
 [tasks.dev]
 description = "Start the Tauri application in development mode"
+depends = "setup"
 run = "pnpm run tauri dev"
 
 [tasks.build]
 description = "Build the Tauri application"
+depends = "setup"
 run = "pnpm run tauri build"
 
 [tasks.clean]
 description = "Clean the Tauri application build artifacts"
-run = """
-rm -rf src-tauri/target
-rm -rf node_modules
-"""
+run = ["rm -rf src-tauri/target", "rm -rf node_modules"]
